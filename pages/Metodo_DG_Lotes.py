@@ -11,7 +11,7 @@ with tab1:
     
     """
     st.latex(r"""
-             $y = \beta + \theta_{n} x_n$
+             y = \beta + \theta_{n} x_n
              """ )
     """
     
