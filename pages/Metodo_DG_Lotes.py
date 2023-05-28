@@ -13,7 +13,7 @@ with tab1:
     st.latex(r""" y = \beta + \theta_{n} x_n """ )
     """
     
-    Mientras que por otro lado, la tasa de aprendizaje del descenso del gradiente se representa como
+    Mientras que por otro lado, la tasa de aprendizaje del descenso del gradiente se representa como $\alpha$
     """
     st.latex(r"""\alpha""")
     """La tasa de aprendizaje es el tamaño del paso dado por cada gradiente. Si bien una tasa de aprendizaje grande puede darnos valores mal optimizados para $\beta$ y $\theta$ , la tasa de aprendizaje también puede ser demasiado pequeña, lo que requiere un incremento sustancial en el número de iteraciones necesarias para obtener el punto de convergencia (el punto de valor óptimo para $\beta y \theta$) . Este algoritmo nos da el valor de $\alpha$ , $\beta$ y $\theta$ como salida.
