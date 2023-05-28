@@ -1,21 +1,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
 import sympy as sy
-
 from matplotlib import pyplot as plt
-
 from sympy.plotting.plot import MatplotlibBackend, Plot
-
 from sympy.plotting import plot3d,plot3d_parametric_line
-
 import plotly as ply
-
 import plotly.express as ex
-
 import plotly.graph_objects as gro
-
 from plotly.subplots import make_subplots
 
 
@@ -24,11 +16,11 @@ from plotly.subplots import make_subplots
 
 def get_sympy_subplots(plot:Plot):
     """
-    Toma un objeto plot y devuelve un objeto figure de matplotlib
+    It takes a plot object and returns a matplotlib figure object
 
-    param gráfico: El objeto plot a renderizar
-    :type gráfico: Gráfico
-    :return: Un objeto de figura matplotlib.
+    :param plot: The plot object to be rendered
+    :type plot: Plot
+    :return: A matplotlib figure object.
     """
     backend = MatplotlibBackend(plot)
 
