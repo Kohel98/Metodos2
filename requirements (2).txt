@@ -1,0 +1,10 @@
+streamlit
+awesome-streamlit
+pandas
+numpy
+seaborn
+matplotlib
+scipy
+psycopg2-binary
+sklearn
+altair
