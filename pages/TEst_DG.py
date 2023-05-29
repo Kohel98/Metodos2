@@ -8,9 +8,10 @@ from scipy import stats
 import altair as alt
 
 
+def logo():
    
-st.title('The Interactive Linear Regression App')
-st.write('''
+   st.title('The Interactive Linear Regression App')
+   st.write('''
              
     Welcome to the Interactive Linear Regression App!
    ''') 
@@ -464,3 +465,5 @@ def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_asses
       More reading on evaluating the linear regression model can be found [here](https://www.ritchieng.com/machine-learning-evaluate-linear-regression-model/).
             
     ''')
+    
+    
