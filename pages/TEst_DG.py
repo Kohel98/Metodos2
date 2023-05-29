@@ -14,7 +14,6 @@ import altair as alt
 def logo():
    
    st.title('The Interactive Linear Regression App')
-   st.image(image='lirawebapp-image1.png',caption='Source: https://pngtree.com/so/graph-icons')
    st.write('''
              
     Welcome to the Interactive Linear Regression App!
