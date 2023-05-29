@@ -10,7 +10,7 @@ def write():
     with st.spinner("Loading Homepage ..."):
         #ast.shared.components.title_awesome(" - Homepage")
         #st.title("LiRA Web App - HomePage")
-        st.image(image='lirawebapp-image.png',caption='Source: https://pngtree.com/so/graph-icons')
+        
         st.write('''
                  
         Welcome to the Interactive Linear Regression App.
