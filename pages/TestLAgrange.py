@@ -24,16 +24,16 @@ Por ejemplo y es posible encontrar una recta única que pasa por dos puntos,y es
 La ecuación polinomial para $y$  se puede modelar mediante:
 """
      st.latex(r"""
-y= a_0 +a_1x+a_2x^{2}+...+a_nx^{n}
-""")
-"""
+         y= a_0 +a_1x+a_2x^{2}+...+a_nx^{n}
+         """)
+     """
 y los n+1 puntos se pueden usar para escribir n+1 ecuaciones para los coeficientes a_i.Estas ecuación son:
 """
-st.latex("""
+     st.latex("""
 y_j= a_0+a1_x_j+a3_x_j^{2}+...+a_nxj^{n} /con/ j=0,1,2,...,n
 """)
 
-"""
+     """
 y constituyen un sistema de ecuaciones algebraicas lineales. La solución de este sistema se puede terminar aplicando métodos numéricos para ese fin. 
 Sin embargo, la matriz de coeficientes, denominada matriz de vander homonde, es sensible al mal planeamiento. 
 Además, sobre el sistema de esa manera ineficaz de obtener una representación para $y$
@@ -53,52 +53,52 @@ Considérese el problema de determinar el polinomio de grado uno que pasa por lo
 $f(x_0)$ =y_0 y fx_1=y_1 por medio de un polinomio de primer grado, interpolando entre,o conincidiendo con,
 los valores de $f(x)$ en los puntos dados.
 """
-"""
+     """
 considerese el polinomio 
 
 """
 
-st.latex(r""" 
+     st.latex(r""" 
 L_0(x)=\frac{ (x-x_1)}{(x_0-x_1)}
 L_1(x)\frac{ (x-x_0)}{(x_1-x_0)}
 P(x)=  L_0(x)y_0+L_1(x)y_1
 """)
-"""
+     """
 el polinomio lineal que pasa por  $ (x_0,f(_0))$ y$ (x_1,f(_1)) $ se construye usando los cocientes
 """
 
-st.latex(r"""L_0(x)=\frac{ (x-x_1)}{(x_0-x_1)}
+     st.latex(r"""L_0(x)=\frac{ (x-x_1)}{(x_0-x_1)}
 L_1(x)\frac{ (x-x_0)}{(x_1-x_0)}\\
 
 P(x)=  L_0(x)y_0+L_1(x)y_1
 """)
-"""
+     """
 cuando $x=x_0$
 """
-st.latex(r""" 
+     st.latex(r""" 
 P(x)=\frac{ (x_0-x_1)}{(x_0-x_1)}y_0 +\frac{ (x_0-x_0)}{(x_1-x_0)}y_1 =y_0=f(x_0)
 """)
-"""
+     """
 $L_0(x_0)=1$, mientras que $L_1(x_0)=0$
 """
-"""
+     """
 cuando $x=x1$
 """
-st.latex(r""" 
+     st.latex(r""" 
 P(x)=\frac{ (x_1-x_1)}{(x_0-x_1)}y_0 +\frac{ (x_1-x_0)}{(x_1-x_0)}y_1 =y_1=f(x_1)\\
 L_0(x_1)=0 y L_1(x_1)=1
 """)
 
-"""
+     """
 Para generalizar el concepto de interpolación lineal, considérese la construcción de un polinomio a lo más grado $n$ que pase por los $n+1$ puntos $(x_0,f(x_0))$, $(x_1,f(x_1))$,$ (x_2,f(x_2))$, …, $(x_n,f(x_n))$, 
 Para lo que se quiere, para cada $k=0,1…, n$, un cociente $L_k(x)$ con la propiedad de que $L_k(x_i) =0$ Cuando $i$ distinto de $k$, por lo que el numerador debe contener el término:
 """
-st.latex(r"""
+     st.latex(r"""
 (x-x_0)(x-x_1)...(x-x_k-1)(x-x_k+1)...(x-x_n)
 """)
 
 
-""""
+     """"
 para satisfacer que $ L_k(X_k) =1 $, el denominador debe ser igual al numerador anterior cuando $ x=x_k $, por lo que cocientes tienen la forma:
 
 
