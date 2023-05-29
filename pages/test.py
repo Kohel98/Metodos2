@@ -67,7 +67,101 @@ with tab1:
                    dé una convergencia cuadratica, siempre y cuando se conozca un valor inicial suficiententemente preciso y exista $J(X^{k})^{-1}$ \\
                    
                    """
-    
+with tab2:
+     st.title(":blue[Ejercicio:]")
+     """
+     Sea el siguiente sistema de ecuaciones: \\
+                           + $f_{1} (x,y) = 4-x^{2} -y^{2} = 0 $ \\
+                           + $f_{2} (x,y) = 1-e^{x} -y = 0 $
+                  """
+     """
+                  Se obtienen las derivadas parciales para escribir la matriz jacobiana: 
+                  """
+     st.latex(r"""
+                  \begin{matrix} 
+                  f_{1x} = -2x & f_{1y} = -2y \\
+                  & \\
+                  f_{2x} = -e^{x} &  f_{2y} = -1 
+               
+                  \end{matrix}
+                  """)
+     """
+                  Jacobiana J(X)
+                  """
+     st.latex(r"""
+                  \begin{matrix} 
+                  f_{1x} = -2x & f_{1y} = -2y \\
+                  & \\
+                  f_{2x} = -e^{x} &  f_{2y} = -1 
+               
+                  \end{matrix}
+                  """)
+     """
+                  Se eligen valores iniciales para la aproximación $X^{(0)} = (1,-1.7)^{t}$ , como valor de $x_0$ y $y_0$ que se sustituyen en $X^{(k+1)} = X^{(K)} - J(X^{(k)})^{-1} F(X^{(k)})$
+                  """
+     st.latex(r""" X^{(1)} = 
+                  \begin{bmatrix} 
+                  1\\
+                   \\
+                  -1.7
+                  \end{bmatrix}
+                  -
+                  \begin{bmatrix} 
+                  -2 & 3.4 \\
+                  & \\
+                 -2.7183 &  -1.0 
+               
+                  \end{bmatrix} ^{-1}
+                  
+                  \begin{bmatrix} 
+                  0.1100\\
+                   \\
+                  -0.0183
+                  \end{bmatrix}
+                  =
+                  \begin{bmatrix} 
+                  1.00426\\
+                   \\
+                  -1.72985
+                  \end{bmatrix}
+                  """)
+     """
+                  Estos valores tienen una aproximacion optima pero aun se puede mejorar, para esto requiere otra iteracion para mejorarla. 
+                  """
+     st.latex(r""" X^{(2)} = 
+                  \begin{bmatrix} 
+                  1.00426\\
+                   \\
+                  -1.72985
+                  \end{bmatrix}
+                  -
+                  \begin{bmatrix} 
+                  -2.00851 & 3.4597 \\
+                  & \\
+                 -2.72987 &  -1.0 
+               
+                  \end{bmatrix} ^{-1}
+                  
+                  \begin{bmatrix} 
+                  -0.0091\\
+                   \\
+                  -0.00002
+                  \end{bmatrix}
+                  =
+                  \begin{bmatrix} 
+                  1.00417\\
+                   \\
+                  -1.72963
+                  \end{bmatrix}
+                  """)
+     """
+                  Las iteraciones se detienen cuando la norma espectral del vector $F(X)$ es menor a una tolerancia previamente establecida. \\
+                  \\
+                  Si se cambia el punto inicial a $X^{(0)} = (-1.5, 0.6)^{t}$ se obtiene la segunda raíz $X=(-1.816264, 0.837367) ^{t}$.\\
+                  \\
+                  Es importante calcular la matriz jacobiana y su inversa en cada interación. 
+                  """
+          
 with tab3:
     def parse_inputsys(inp):
         eq = []
