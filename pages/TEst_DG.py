@@ -1,469 +1,172 @@
-
+"""LiRA Web Home page"""
 import streamlit as st
-import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-from scipy import stats
-#import time
-import altair as alt
+import functions.sfunctions as sf
 
 
-def logo():
-   
-   st.title('The Interactive Linear Regression App')
-   st.write('''
-             
-    Welcome to the Interactive Linear Regression App!
-   ''') 
-
-
-
-# ****************************************************************************************************
-# Generic function to create random variables based on specific distribution characteristics
-# ****************************************************************************************************
-
-def create_distribution(mean, stddev, data):
-    var = mean * data + stddev
-    return var
-
-
-# ****************************************************************************************************
-# Generic function to create a dependent variable based on Slope, Intercept and Error
-# ****************************************************************************************************
-
-def create_variable(a, b, X, err):
-    # Actual Regression Line
-    y_act = b + a * X 
-    # Population line: Actual Regression line fused with noise/error
-    y = y_act + err                  
-    return y, y_act
-
-
-
-# ***************************************************************************************************************************
-# Generate Data
-# ***************************************************************************************************************************
-def generate_data(n, a, b, mean_x, stddev_x, mean_res):
-       # Create r and r1, random vectors of "n" numbers each with mean = 0 and standard deviation = 1
-        np.random.seed(100)
-        r = np.random.randn(n)
-        r1 = np.random.randn(n)
-
-        # Create Independent Variable as simulated Input vector X by specifying Mean, Standard Deviation and number of samples 
-        X = create_distribution(mean_x, stddev_x,r)
-        
-
-        # Create Random Error as simulated Residual Error term err using mean = 0 and Standard Deviation from Slider
-        err = create_distribution(mean_res,0, r1)
+# pylint: disable=line-too-long
+def write():
+    #"""Used to write the page in the app.py file"""
+    with st.spinner("Loading Homepage ..."):
+        #ast.shared.components.title_awesome(" - Homepage")
+        #st.title("LiRA Web App - HomePage")
+        st.image(image='lirawebapp-image.png',caption='Source: https://pngtree.com/so/graph-icons')
+        st.write('''
+                 
+        Welcome to the Interactive Linear Regression App.
                 
-        # Create Dependent Variable simulated Output vector y by specifying Slope, Intercept, Input vector X and Simulated Residual Error
-        y, y_act = create_variable(a, b, X, err)
+        Purpose of this app is to provide a simple interface to experiment with Linear Regression. Using this page you'll be able to:
         
-        # ************ Normal Equations data trasnformations ****
-        # Transform "X" to use as matrix in Normal Equations
-        X1 = np.matrix([np.ones(n), X]).T
-        # Transform "y" to use as matrix in Normal Equations
-        y1 = np.matrix(y).T
+        ####
+        ## 1. Simulate a linear function 
         
-        # ************ Gradient descent
-        
-        
-        
-        # Storing Population Actual Regression Line "y_act", data points X and y in a data frame
-        rl = pd.DataFrame(
-            {"X": X,
-             'y': y,
-            'y_act': y_act}
-        )
-        return rl, X1, y1
-
-
-# ****************************************************************************************************
-# Normal Equations method to calculate coeffiencts a and b
-# ****************************************************************************************************
-
-def NE_method(X1, y1):
-    # Calculate coefficients alpha (or a) and beta (or b)
-    A = np.linalg.inv(X1.T.dot(X1)).dot(X1.T).dot(y1)
-    a = A[1].item()
-    b = A[0].item()
-    return a, b
-
-
-
-# *****************************************************************************************
-# Gradiend Descent Error function    
-# *****************************************************************************************
-
-def GD_error(a, b, X, y):
-    y_pred = a * X + b  # The current predicted value of Y
-    cost = sum((y_pred-y)**2) / (2*len(y)) 
-    return cost
+        Typically, during Linear Regression, we're trying to predict a linear function of type
+         Y = aX + b from the data samples. In this case there is no dataset, so we'll create a predefined and configurable
+         linear function to generate these data from. In order to do so we need to specify the following:
          
-
-# *****************************************************************************************
-# Gradiend Descent Weights Calculation function    
-# *****************************************************************************************
-   
-def GD_theta(a, b, X, y, L, n):  
-    y_pred = a * X + b  # The current predicted value of Y
-    # Theta or Weights calculation
-    D_a = (-2/n) * sum(X * (y - y_pred))  # Derivative wrt a
-    D_b = (-2/n) * sum(y - y_pred)  # Derivative wrt b
-    a = a - L * D_a  # Update alpha
-    b = b - L * D_b  # Update beta
-    return a, b, y_pred
-
-
-# *****************************************************************************************
-# Animation function to show how Gradient Descent predicted line converges to Actual Line    
-# *****************************************************************************************
-
-def GD_animate(rl,draw_fig1, data_points, regression_line):
-    
-   #if mode == "Altair":
-    
-       
-    predicted_line = alt.Chart(rl).mark_line(color='purple').encode(x='X', y='y_pred')
-    #draw_fig1.altair_chart(predicted_line)
-    draw_fig1.altair_chart(data_points+regression_line+predicted_line)
-    
-    #err_df = pd.DataFrame(tmp_err)
-    #error_line = alt.Chart(err_df).mark_line(color='red').encode(x='epochs', y='err')
-    #draw_fig2 = st.altair_chart(error_line)
-    #draw_fig2.altair_chart(error_line)
-    
-    # elif mode == "Matplotlib":
-    #     ax.plot(X, y_pred, label = 'Predicted (Least Squares Line)', color='purple')
-    #     the_plot.pyplot(plt,clear_figure=False)
+        #### Distribution of X (Input)
+        In order to generate random data samples for input X, we'll need to know the Mean and Deviation of the distribution,
+        which can be set by adjusting the respective controls in the sidebar widget.
+         
+        #### Coefficients (a, b)
+        The Slope and Intercept of the linear function can also be adjusted using the controls available in the sidebar widget.
         
-
-# ****************************************************************************************************
-# Gradient Descent method to calculate coeffiencts a and b
-# ****************************************************************************************************
-def GD_method(rl, L, epochs):
-    
-    X=rl['X'] 
-    y=rl['y']
-    n = float(len(X)) # Number of elements in X
-    y_pred = [0]*len(X) # Used in animation with Matplotlib
-    rl['y_pred'] = [0]*len(X) # Used in animation with Altair
-    
-    
-    # Plot using Altair for Animation 
-    # if mode == "Matplotlib":
-    # Define lines
-    data_points = alt.Chart(rl).mark_point(color='red').encode(x='X', y='y')
-    regression_line = alt.Chart(rl).mark_line(color='green').encode(x='X', y='y_act')
-    #error_line = alt.Chart(error).mark_line(color='blue').encode(x='epochs', y='err')
-             
-    # Draw plots
-    draw_fig1 = st.altair_chart(data_points+regression_line)
-    #draw_fig2 = st.altair_chart(error_line)
-    
-    
-    # elif mode == "Matplotlib":
-    #     fig, ax = plt.subplots()
-    #     ax.plot(X,rl['y_act'], label = 'Actual (Population Regression Line)',color='green')
-    #     ax.plot(X, y, 'ro', label ='Collected data')   
-    #     ax.plot(X, y_pred, label = 'Predicted (Least Squares Line)', color='purple')
-    #     ax.set_title('Actual vs Predicted')
-    #     ax.set_xlabel('X')
-    #     ax.set_ylabel('y')
-    #     ax.legend()
-    #     the_plot = st.pyplot(plt,clear_figure=False)
-    
-        
-    
-    # ************************************************************
-    # Performing Gradient Descent 
-    # ************************************************************
-    # Initialise a and b and error
-    a=0
-    b=0
-    tmp_err = []
-    tmp_theta = []
-    
-    
-    # Initialise progress bar
-    my_bar = st.progress(0)       
-    status_text = st.empty()
-    pb_i = round(epochs/100)
-    
-    for i in range(epochs): 
-        a, b, y_pred = GD_theta(a, b, X, y, L, n)
-        err = GD_error(a, b, X, y)
-       
-        # Store cumulative error and weights
-        tmp_err.append([i, err]) 
-        tmp_theta.append([i, a, b])
-        
-        
-        rl['y_pred'] = a * X + b # To use for animation with Altair
-        #error['err'] = err # To use for animation with Altair
-        #rl['epochs'] = epochs
-        
-        # ***********************************************
-        # ANIMATE Gradient Descent
-        # ***********************************************
-        # Animate sampled plots as algorithm converges along with progress bar
-        if((i % pb_i) == 0 and round(i/pb_i)<101):
-            GD_animate(rl,draw_fig1, data_points, regression_line)
-            my_bar.progress(round(i/pb_i))
-    status_text.text('Gradient Descent converged to the optimal values. Exiting...')    
-    return a, b, y_pred, tmp_err
-
-# ****************************************************************************************************
-# Ordinary Least Squares method to calculate coeffiencts a and b
-# ****************************************************************************************************
-
-def OLS_method(rl):
-    # ## Calculate coefficients alpha and beta
-    
-    # Assuming y = aX + b
-    # a ~ alpha
-    # b ~ beta
-    
-    # Calculate the mean of X and y
-    xmean = np.mean(rl['X'])
-    ymean = np.mean(rl['y'])
-    
-    # Calculate the terms needed for the numerator and denominator of alpha
-    rl['CovXY'] = (rl['X'] - xmean) * (rl['y'] - ymean)
-    rl['VarX'] = (rl['X'] - xmean)**2
-    
-    # Calculate alpha
-    # Numerator: Covariance between X and y
-    # Denominator: Variance of X
-    alpha = rl['CovXY'].sum() / rl['VarX'].sum()
-    
-    # Calculate beta
-    beta = ymean - (alpha * xmean)
-    return alpha, beta
-
-# ****************************************************************************************************
-# Predict function to generate the Predicted Regression Line
-# ****************************************************************************************************
-
-def liraweb_predict(a, b, X, method):
-    if method == "OLS-Simple Linear Regression" or method == "OLS-Normal Equations" or method == "SKlearn":
-        y = a * X + b
-        return y
-    else:
-        print("please specify prediction method correctly")
-
-
-
-# ****************************************************************************************************************************
-# Function to Evaluate the Model Coefficients and Metrics - RSS, RSE(σ), TSS and R^2 Statistic
-# ****************************************************************************************************************************
-
-def OLS_evaluation(rl, ypred, alpha, beta, n):
-    ymean = np.mean(rl['y'])
-    xmean = np.mean(rl['X'])
-    
-    
-    print('\n****************************************************')
-    print('Estimated Model')
-    print('****************************************************')
-    print('\nAlpha (Slope) calculated as ', alpha)
-    print('\nBeta (Intercept) calculated as ',beta)
-    print('\nLeast Squares line predicted as y = %.2fX + %.2f' % (alpha, beta))
-    
-    
-    print('\n****************************************************')
-    print('Model performance metrics')
-    print('****************************************************')
-    # Residual Errors
-    RE = (rl['y'] - ypred)**2
-    
-    #Residual Sum Squares
-    RSS = RE.sum()
-    print("\nResidual Sum of Squares (RSS) is:",RSS)
-    
-    # Estimated Standard Variation (sigma) or RSE
-    RSE = np.sqrt(RSS/(n-2))
-    print("\nResidual Standard Error (Standard Deviation σ) is:",RSE)
-    
-    # Total Sum of squares (TSS)
-    TE = (rl['y'] - ymean)**2
-    # Total Sum Squares
-    TSS = TE.sum()
-    print("\nTotal Sum of Squares (TSS) is:",TSS)
-    
-    # R^2 Statistic
-    R2 = 1 - RSS/TSS
-    print("\nR2 Statistic is:",R2)
-    
-    
-    # Assessing Coefficients accuracy
-       
-    # Degrees of freedom
-    df = 2*n - 2
-    
-    # Variance of X
-    rl['VarX'] = (rl['X'] - xmean)**2
-    
-    # Standard error, t-Statistic and  p-value for Slope "alpha" coefficient
-    SE_alpha = np.sqrt(RSE**2/rl['VarX'].sum())
-    t_alpha = alpha/SE_alpha
-    p_alpha = 1 - stats.t.cdf(t_alpha,df=df)
-    
-    # Standard error, t-Statistic and  p-value for Intercept "beta" coefficient
-    SE_beta = np.sqrt(RSE*(1/n + xmean**2/(rl['VarX'].sum())))
-    t_beta = beta/SE_beta 
-    p_beta = 1 - stats.t.cdf(t_beta,df=df)
-    
-    
-    # Coefficients Assessment Dataframe - Storing all coeffient indicators in dataframe
-    mcf_df = pd.DataFrame(
-        {'Name':['Slope (alpha)', 'Intercept (beta)'],
-         'Coefficient': [alpha, beta],
-         'RSE':[SE_alpha, SE_beta],
-         't-Statistic':[t_alpha, t_beta],
-         'p-Value':[p_alpha, p_beta]
-        }
-    )
-    mcf_df
-      
-    # Model Assessment Dataframe - Storing all key indicators in dummy dataframe with range 1
-    ma_df = pd.DataFrame(
-        {'Ref': range(0,1),
-         'RSS': RSS,
-         'RSE ': RSE,
-         'TSS': TSS,
-         'R2': R2
-         }
-    )
-    ma_df.iloc[:,1:9]
-    return mcf_df, ma_df
-
-def plot_GD_error(error):
-    plt.figure(figsize=(12, 6))
-    # Population Regression Line
-    plt.plot(error[1], label='Gradient Descent Method - Error tracking', color='orange')
-    plt.title('Error')
-    plt.xlabel('Epochs')
-    plt.ylabel('error')
-    plt.legend()
-    st.pyplot()
-
-def plot_model(rl,ypred, method):
-    # Plot regression against actual data
-    plt.figure(figsize=(12, 6))
-    # Population Regression Line
-    plt.plot(rl['X'],rl['y_act'], label = 'Actual (Population Regression Line)',color='green')
-    # Least squares line
-    if method == "OLS-Simple Linear Regression":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='blue')     
-    elif method == "OLS-Normal Equations":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='orange')             
-    elif method == "Gradient Descent":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='purple')             
-   
-    elif method == "SKlearn":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='k')
-    # scatter plot showing actual data
-    plt.plot(rl['X'], rl['y'], 'ro', label ='Collected data')   
-    plt.title('Actual vs Predicted')
-    plt.xlabel('X')
-    plt.ylabel('y')
-    plt.legend()
-    #plt.show()
-    st.pyplot()
-    
-def plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess):
-    st.write('''
-    ##
-    ## 5. Plot results
-             ''')
-    st.write('''
-             The plot gives a good visual overview of the prediction capability of the model, capturing the following elements:
-              1) The Predicted Least Squares linear function
-              2) The Actual line used to generate the data
-              3) The Sampled Data
-    ''')
-
-    # Plot results
-    plot_model(rl,ypred, lira_method)
-    
-    st.write('''
-    ####
-    ## 6. Evaluate Model Metrics
-    At this section, the predicted model and its coeeficients will be evaluated using various Statical Measures.
-        ''')
-    st.write('''
-    #### Assessment of Coefficients
-    * Residual Square Error - RSE
-    * t-Statistic
-    * p-Value
-    ''')
-    st.write(model_coeff)
-    st.write('''
-    ####
-    #### Model Assessment Summary
-    * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation ) - RSE
-    * Total Sum of Squares - TSS 
-    * R2 Statistic
-            ''') 
-    # Cut out the dummy index column to see the Results
-    st.write(model_assess.iloc[:,1:9])
-    st.write('''
-    #### 
-     More reading on evaluating the linear regression model can be found [here](https://www.ritchieng.com/machine-learning-evaluate-linear-regression-model/).
+        ####
+        ## 2. Generate Random Data population
+        Once we have simulated a linear function, we need to infuse these data with some noise, to allow for the algoright to discover
+        the simulated linear function. In order to do so we need to specify number of Samples "n" and the Mean of the error Distribution
+        or Mean of Error (Residual):
             
-    ''')
-    
-def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_assess):
-    st.write('''
-    ##
-    ## 5. Plot results
-              ''')
-    st.write('''
-              The plot gives a good visual overview of the prediction capability of the model, capturing the following elements:
-              1) The Predicted Least Squares linear function
-              2) The Actual line used to generate the data
-              3) The Sampled Data
-              
-              ''')
-
-    # Plot results
-    plot_model(rl, ypred, lira_method)
-    
-    st.write('''
-              The graph below shows the error curve as the model learns to approximate the Predicted line better.
-              ''')
-
-    
-    plot_GD_error(error)
-    
-    st.write('''
-    ####
-    ## 6. Evaluate Model Metrics
-    At this section, the predicted model and its coeeficients will be evaluated using various Statical Measures.
+        #### Number of Samples - n
+        To generate the data, the number of data points need to be specified as per respective control in the sidebar.
+        
+        #### Residual - e
+        Distribution of error to be added to Y to generate the Y_Samples.      
         ''')
-    st.write('''
-    #### Assessment of Coefficients
-    * Residual Square Error - RSE
-    * t-Statistic
-    * p-Value
-    ''')
-    st.write(model_coeff)
-    st.write('''
-    ####
-    #### Model Assessment Summary
-    * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation ) - RSE
-    * Total Sum of Squares - TSS 
-    * R2 Statistic
-            ''') 
-    # Cut out the dummy index column to see the Results
-    st.write(model_assess.iloc[:,1:9])
-    st.write('''
-    #### 
-      More reading on evaluating the linear regression model can be found [here](https://www.ritchieng.com/machine-learning-evaluate-linear-regression-model/).
+        
+        # ****************************************************************************************************
+        # Input widgets
+        # ****************************************************************************************************
+        
+        st.sidebar.title("App Controls")
+        st.sidebar.subheader('**Number of samples**')
+        n = st.sidebar.slider('Select the number of samples for the population',5, 100)
+        
+        st.sidebar.subheader('Configure distribution for X')
+        # Use these for good visual - (mean_x = 3, stddev_x = 2)
+        mean_x = st.sidebar.slider("Select Mean for generating X",-10,10,3)
+        stddev_x = st.sidebar.slider('Select Standard Deviation for generating X',-5,5,2)
+        
+        st.sidebar.subheader('Coefficients')
+        # Select a = 0.35 and b = 2.5 for good visual
+        a = st.sidebar.slider('Select "Slope" for Regression line', -2.0, 2.0,0.15)
+        b = st.sidebar.slider('Select "Intercept" for Regression line', -10.0, 10.0, 2.5)
+        
+        st.sidebar.subheader('Residual Error')
+        #st.write('Select residual distribution for noise added to Simulated Linear function')
+        mean_res = st.sidebar.slider ('Select Mean for Residual Error',0.0,2.0,0.7)
+                        
+        # Dataframe to store generated data
+        rl, X1, y1 = sf.generate_data(n, a, b, mean_x, stddev_x, mean_res)
+        
+        st.write('''
+        ##
+        ## 3. View a sample of generated Data
+           The table below, shows a sample of the generated population "X" and "y" along with "Y_act", the actual output of the simulated 
+           linear function used to generate the observed "y".
+                 ''')
+    
+        st.dataframe(rl.head())
+        # ****************************************************************************************************************************
+    
+    
+        st.write('''
+        ##
+        ## 4. Select Linear Regression Method
+        In order to implement the linear regression model, there are 4 options available:
+        
+        * Ordinary Least Squares - Simple Linear Regression
+        * Ordinary Least Squares - Normal Equations
+        * Gradient Descent or LSM Algorithm
+        * SKlearn - Linear Models
+        
+        For more in depth reading about these methods, please check the Resources pages.
+        #### Select Linear Regression method
+                 ''')
+           
+        method=["Gradient Descent", "OLS-Simple Linear Regression", "OLS-Normal Equations", "SKlearn"]
+        lira_method = st.selectbox('',(method))
+        #if st.button('Predict'):
+        
+        if lira_method == "Gradient Descent":
+            # Configuration Parameters for Gradient Descent
+            L = st.slider('Select the Learning Rate', 0.0,0.05, 0.015,0.0001)
+            epochs = st.slider('Select the number of iterations (Epochs)', 100, 1000,250,5)
+            #pmethod = ['Altair','Plotly','Matplotlib', 'Skip Animation']
+            #mode = st.selectbox("Select Plotting Library",(pmethod))
             
-    ''')
-    
-    
+            # Calculate model and coefficients
+            alpha, beta, ypred, tmp_err= sf.GD_method(rl, L, epochs)
+            error = pd.DataFrame(tmp_err)
+                        
+            # Evaluate Model
+            model_coeff, model_assess = sf.OLS_evaluation(rl, ypred, alpha, beta, n);
+            
+            # Results summary
+            # Plot final graphs and Evaluate Model metrics
+            sf.GD_plots_and_metrics(rl, ypred, error, lira_method,model_coeff, model_assess)
+            
+            
+        
+        if lira_method == "OLS-Simple Linear Regression":
+            # Calculate coefficients
+            alpha, beta = sf.OLS_method(rl)
+            
+            # Calculate Regression Line
+            ypred = sf.liraweb_predict(alpha, beta, rl['X'], lira_method)
+            
+            # Evaluate Model
+            model_coeff, model_assess = sf.OLS_evaluation(rl, ypred, alpha, beta, n);
+           
+            # Results summary
+            # Plot final graphs and Evaluate Model metrics
+            sf.plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess)
+            
+            
+        if lira_method == "OLS-Normal Equations":
+            # Calculate coefficients
+            alpha, beta = sf.NE_method(X1,y1)
+            
+            # Calculate Regression Line
+            ypred = sf.liraweb_predict(alpha, beta, rl['X'], lira_method)
+            
+            # Evaluate Model
+            # create new evaluation method sf.NE_evaluation and replace - for now use ypred
+            model_coeff, model_assess = sf.OLS_evaluation(rl, ypred, alpha, beta, n);
+            
+            # Results summary
+            # Plot final graphs and Evaluate Model metrics
+            sf.plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess)
+            
+        
+        if lira_method == 'SKlearn':
+            # Import library
+            from sklearn.linear_model import LinearRegression
+            
+            # Calculate model and coefficients
+            lr = LinearRegression()
+            lr.fit(rl['X'].values.reshape(-1, 1), rl['y'].values.reshape(-1, 1))
+            alpha = lr.coef_[0][0]
+            beta = lr.intercept_[0]
+            ypred = sf.liraweb_predict(alpha, beta, rl['X'], lira_method)
+            
+            # Evaluate Model
+            model_coeff, model_assess = sf.OLS_evaluation(rl, ypred, alpha, beta, n);
+            
+            # Results summary
+            # Plot final graphs and Evaluate Model metrics
+            sf.plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess)
+            
+
+if __name__ == "__main__":
+    write()
