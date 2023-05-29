@@ -3,8 +3,7 @@ import streamlit as st
 import pandas as pd
 import functions.sfunctions as sf
 
-"""_summary_
-    """
+
 # pylint: disable=line-too-long
 def write():
     #"""Used to write the page in the app.py file"""
