@@ -8,13 +8,9 @@ from scipy import stats
 import altair as alt
 
 
-# ****************************************************************************************************
-#
-# ****************************************************************************************************
-def logo():
    
-   st.title('The Interactive Linear Regression App')
-   st.write('''
+st.title('The Interactive Linear Regression App')
+st.write('''
              
     Welcome to the Interactive Linear Regression App!
    ''') 
@@ -406,7 +402,7 @@ def plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess):
     ####
     #### Model Assessment Summary
     * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation σ) - RSE
+    * RSE (Standard Deviation ) - RSE
     * Total Sum of Squares - TSS 
     * R2 Statistic
             ''') 
