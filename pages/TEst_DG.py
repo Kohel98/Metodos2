@@ -334,7 +334,7 @@ def OLS_evaluation(rl, ypred, alpha, beta, n):
     ma_df = pd.DataFrame(
         {'Ref': range(0,1),
          'RSS': RSS,
-         'RSE (σ)': RSE,
+         'RSE ': RSE,
          'TSS': TSS,
          'R2': R2
          }
@@ -458,7 +458,7 @@ def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_asses
     ####
     #### Model Assessment Summary
     * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation σ) - RSE
+    * RSE (Standard Deviation ) - RSE
     * Total Sum of Squares - TSS 
     * R2 Statistic
             ''') 
