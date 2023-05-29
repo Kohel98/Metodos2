@@ -120,6 +120,12 @@ entonces, la densidad del sodio a una temperatura t=251°C es de d= 890.5566117 
 
 aquí  cabe aclarar que, aunque con el método de lagrange se puede obtener una expresión ese que potencias que aproxime a la función que describe la table datos, esto no es una práctica común, porque generalmente se aplica mediante un programa computadora y porque existen métodos más eficientes para este fin.
 """
+with tab2:
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
 with tab3:
 
     def get_sympy_subplots(plot:Plot):
