@@ -14,11 +14,7 @@ import altair as alt
 def logo():
    
    st.title('The Interactive Linear Regression App')
-   st.image(image='lirawebapp-image1.png',caption='Source: https://pngtree.com/so/graph-icons')
-   st.write('''
-             
-    Welcome to the Interactive Linear Regression App!
-   ''') 
+  
 
 
 
@@ -214,7 +210,7 @@ def GD_method(rl, L, epochs):
         if((i % pb_i) == 0 and round(i/pb_i)<101):
             GD_animate(rl,draw_fig1, data_points, regression_line)
             my_bar.progress(round(i/pb_i))
-    status_text.text('Gradient Descent converged to the optimal values. Exiting...')    
+    status_text.text('El Descenso Gradiente ha convergido a los valores óptimos. Saliendo...')    
     return a, b, y_pred, tmp_err
 
 # ****************************************************************************************************
@@ -250,11 +246,11 @@ def OLS_method(rl):
 # ****************************************************************************************************
 
 def liraweb_predict(a, b, X, method):
-    if method == "OLS-Simple Linear Regression" or method == "OLS-Normal Equations" or method == "SKlearn":
+    if method == "MCO-Regresión lineal simple" or method == "Ecuaciones OLS-Normal" or method == "SKlearn":
         y = a * X + b
         return y
     else:
-        print("please specify prediction method correctly")
+        print("especifique correctamente el método de predicción")
 
 
 
@@ -268,36 +264,36 @@ def OLS_evaluation(rl, ypred, alpha, beta, n):
     
     
     print('\n****************************************************')
-    print('Estimated Model')
+    print('Modelo estimado')
     print('****************************************************')
-    print('\nAlpha (Slope) calculated as ', alpha)
-    print('\nBeta (Intercept) calculated as ',beta)
-    print('\nLeast Squares line predicted as y = %.2fX + %.2f' % (alpha, beta))
+    print('\nAlfa (pendiente) calculada como ', alpha)
+    print('\nBeta (Intercepción) calculada como ',beta)
+    print('\nLínea de mínimos cuadrados predicha como y = %.2fX + %.2f' % (alpha, beta))
     
     
     print('\n****************************************************')
-    print('Model performance metrics')
+    print('Métricas de rendimiento del modelo')
     print('****************************************************')
     # Residual Errors
     RE = (rl['y'] - ypred)**2
     
     #Residual Sum Squares
     RSS = RE.sum()
-    print("\nResidual Sum of Squares (RSS) is:",RSS)
+    print("\nLa suma residual de cuadrados (RSS) es:",RSS)
     
     # Estimated Standard Variation (sigma) or RSE
     RSE = np.sqrt(RSS/(n-2))
-    print("\nResidual Standard Error (Standard Deviation σ) is:",RSE)
+    print("\nEl error estándar residual (desviación estándar) es:",RSE)
     
     # Total Sum of squares (TSS)
     TE = (rl['y'] - ymean)**2
     # Total Sum Squares
     TSS = TE.sum()
-    print("\nTotal Sum of Squares (TSS) is:",TSS)
+    print("\nLa suma total de cuadrados (SCT) es:",TSS)
     
     # R^2 Statistic
     R2 = 1 - RSS/TSS
-    print("\nR2 Statistic is:",R2)
+    print("\nLa estadística R2 es:",R2)
     
     
     # Assessing Coefficients accuracy
@@ -321,10 +317,10 @@ def OLS_evaluation(rl, ypred, alpha, beta, n):
     
     # Coefficients Assessment Dataframe - Storing all coeffient indicators in dataframe
     mcf_df = pd.DataFrame(
-        {'Name':['Slope (alpha)', 'Intercept (beta)'],
-         'Coefficient': [alpha, beta],
+        {'Nombre':['Pendiente (alpha)', 'Interceptar (beta)'],
+         'Coeficientes': [alpha, beta],
          'RSE':[SE_alpha, SE_beta],
-         't-Statistic':[t_alpha, t_beta],
+         'Estadística t':[t_alpha, t_beta],
          'p-Value':[p_alpha, p_beta]
         }
     )
@@ -334,7 +330,7 @@ def OLS_evaluation(rl, ypred, alpha, beta, n):
     ma_df = pd.DataFrame(
         {'Ref': range(0,1),
          'RSS': RSS,
-         'RSE (σ)': RSE,
+         'RSE ': RSE,
          'TSS': TSS,
          'R2': R2
          }
@@ -345,7 +341,7 @@ def OLS_evaluation(rl, ypred, alpha, beta, n):
 def plot_GD_error(error):
     plt.figure(figsize=(12, 6))
     # Population Regression Line
-    plt.plot(error[1], label='Gradient Descent Method - Error tracking', color='orange')
+    plt.plot(error[1], label='Método de descenso gradiente - Seguimiento de errores', color='orange')
     plt.title('Error')
     plt.xlabel('Epochs')
     plt.ylabel('error')
@@ -356,20 +352,20 @@ def plot_model(rl,ypred, method):
     # Plot regression against actual data
     plt.figure(figsize=(12, 6))
     # Population Regression Line
-    plt.plot(rl['X'],rl['y_act'], label = 'Actual (Population Regression Line)',color='green')
+    plt.plot(rl['X'],rl['y_act'], label = 'Actual (línea de regresión de la población)',color='green')
     # Least squares line
-    if method == "OLS-Simple Linear Regression":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='blue')     
-    elif method == "OLS-Normal Equations":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='orange')             
-    elif method == "Gradient Descent":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='purple')             
+    if method == "OLS-Simple linear regression":
+        plt.plot(rl['X'], ypred, label = 'Predicción (línea de mínimos cuadrados)', color='blue')     
+    elif method == "Ecuaciones OLS-Normal":
+        plt.plot(rl['X'], ypred, label = 'Predicción (línea de mínimos cuadrados)', color='orange')             
+    elif method == "Descenso gradual":
+        plt.plot(rl['X'], ypred, label = 'Predicción (línea de mínimos cuadrados)', color='purple')             
    
     elif method == "SKlearn":
-        plt.plot(rl['X'], ypred, label = 'Predicted (Least Squares Line)', color='k')
+        plt.plot(rl['X'], ypred, label = 'Predicción (línea de mínimos cuadrados)', color='k')
     # scatter plot showing actual data
-    plt.plot(rl['X'], rl['y'], 'ro', label ='Collected data')   
-    plt.title('Actual vs Predicted')
+    plt.plot(rl['X'], rl['y'], 'ro', label ='Datos recogidos')   
+    plt.title('Real frente a previsto')
     plt.xlabel('X')
     plt.ylabel('y')
     plt.legend()
@@ -379,13 +375,13 @@ def plot_model(rl,ypred, method):
 def plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess):
     st.write('''
     ##
-    ## 5. Plot results
+    ## 5. Resultados
              ''')
     st.write('''
-             The plot gives a good visual overview of the prediction capability of the model, capturing the following elements:
-              1) The Predicted Least Squares linear function
-              2) The Actual line used to generate the data
-              3) The Sampled Data
+             El gráfico ofrece una buena visión general de la capacidad de predicción del modelo, ya que recoge los siguientes elementos:
+              1) La función lineal de mínimos cuadrados predicha
+              2) La línea real utilizada para generar los datos
+              3) Los datos muestreados
     ''')
 
     # Plot results
@@ -393,42 +389,41 @@ def plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess):
     
     st.write('''
     ####
-    ## 6. Evaluate Model Metrics
-    At this section, the predicted model and its coeeficients will be evaluated using various Statical Measures.
+    ## 6. Evaluar las métricas del modelo
+    En esta sección, el modelo predicho y sus coeeficientes se evaluarán utilizando varias medidas estáticas.
         ''')
     st.write('''
-    #### Assessment of Coefficients
-    * Residual Square Error - RSE
-    * t-Statistic
-    * p-Value
+    #### Evaluación de los coeficientes
+    * Error cuadrático residual - RSE
+    * Estadística t
+    * Valor p
     ''')
     st.write(model_coeff)
     st.write('''
     ####
-    #### Model Assessment Summary
-    * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation σ) - RSE
-    * Total Sum of Squares - TSS 
-    * R2 Statistic
+    #### Resumen de la evaluación del modelo
+    * Suma residual de cuadrados - RSS
+    * RSE (Desviación estándar) - RSE
+    * Suma total de cuadrados - TSS 
+    * Estadística R2
             ''') 
     # Cut out the dummy index column to see the Results
     st.write(model_assess.iloc[:,1:9])
     st.write('''
     #### 
-     More reading on evaluating the linear regression model can be found [here](https://www.ritchieng.com/machine-learning-evaluate-linear-regression-model/).
-            
+        
     ''')
     
 def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_assess):
     st.write('''
     ##
-    ## 5. Plot results
+    ## 5. Resultados
               ''')
     st.write('''
-              The plot gives a good visual overview of the prediction capability of the model, capturing the following elements:
-              1) The Predicted Least Squares linear function
-              2) The Actual line used to generate the data
-              3) The Sampled Data
+              El gráfico ofrece una buena visión general de la capacidad de predicción del modelo, ya que recoge los siguientes elementos:
+              1) La función lineal de mínimos cuadrados predicha
+              2) La línea real utilizada para generar los datos
+              3) Los datos muestreados
               
               ''')
 
@@ -436,7 +431,7 @@ def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_asses
     plot_model(rl, ypred, lira_method)
     
     st.write('''
-              The graph below shows the error curve as the model learns to approximate the Predicted line better.
+              El gráfico siguiente muestra la curva de error a medida que el modelo aprende a aproximarse mejor a la línea de Predicción.
               ''')
 
     
@@ -444,28 +439,27 @@ def GD_plots_and_metrics(rl, ypred, error, lira_method, model_coeff, model_asses
     
     st.write('''
     ####
-    ## 6. Evaluate Model Metrics
-    At this section, the predicted model and its coeeficients will be evaluated using various Statical Measures.
+    ## 6. Evaluar las métricas del modelo
+    En esta sección, el modelo predicho y sus coeeficientes se evaluarán utilizando varias medidas estáticas.
         ''')
     st.write('''
-    #### Assessment of Coefficients
-    * Residual Square Error - RSE
-    * t-Statistic
-    * p-Value
+    #### Evaluación de los coeficientes
+    * Error cuadrático residual - RSE
+    * Estadística t
+    * Valor p
     ''')
     st.write(model_coeff)
     st.write('''
     ####
-    #### Model Assessment Summary
-    * Residual Sum of Squares - RSS
-    * RSE (Standard Deviation σ) - RSE
-    * Total Sum of Squares - TSS 
-    * R2 Statistic
+    #### Resumen de la evaluación del modelo
+    * Suma residual de cuadrados - RSS
+    * RSE (Desviación estándar) - RSE
+    * Suma total de cuadrados - TSS 
+    * Estadística R2
             ''') 
     # Cut out the dummy index column to see the Results
     st.write(model_assess.iloc[:,1:9])
     st.write('''
     #### 
-      More reading on evaluating the linear regression model can be found [here](https://www.ritchieng.com/machine-learning-evaluate-linear-regression-model/).
-            
+           
     ''')

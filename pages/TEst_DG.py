@@ -7,74 +7,72 @@ import functions.sfunctions as sf
 # pylint: disable=line-too-long
 def write():
     #"""Used to write the page in the app.py file"""
-    with st.spinner("Loading Homepage ..."):
+    with st.spinner("Cargando Página de inicio ..."):
         #ast.shared.components.title_awesome(" - Homepage")
         #st.title("LiRA Web App - HomePage")
         
         st.write('''
+                 Descenso de la gradiente 
+                 el proposito es simular un descenso de una gradiente 
                  
-        Welcome to the Interactive Linear Regression App.
-                
-        Purpose of this app is to provide a simple interface to experiment with Linear Regression. Using this page you'll be able to:
+      
+        ####
+        ## 1. Simular la funcion lineal
+        
+        Normalmente, durante la regresión lineal, intentamos predecir una función lineal del tipo
+         Y = aX + b a partir de las muestras de datos. En este caso no hay conjunto de datos, por lo que vamos a crear una predefinida y configurable
+         predefinida y configurable para generar estos datos. Para ello necesitamos especificar lo siguiente:
+         
+        #### Distribución de x (Input)
+        Para generar muestras de datos aleatorios para la entrada X, necesitaremos conocer la Media y la Desviación de la distribución,
+        que pueden establecerse ajustando los controles respectivos en el widget de la barra lateral.
+        
+        #### Coeficientes (a, b)
+        La Pendiente y el Intercepto de la función lineal también pueden ajustarse utilizando los controles disponibles en el widget de la barra lateral.
         
         ####
-        ## 1. Simulate a linear function 
-        
-        Typically, during Linear Regression, we're trying to predict a linear function of type
-         Y = aX + b from the data samples. In this case there is no dataset, so we'll create a predefined and configurable
-         linear function to generate these data from. In order to do so we need to specify the following:
-         
-        #### Distribution of X (Input)
-        In order to generate random data samples for input X, we'll need to know the Mean and Deviation of the distribution,
-        which can be set by adjusting the respective controls in the sidebar widget.
-         
-        #### Coefficients (a, b)
-        The Slope and Intercept of the linear function can also be adjusted using the controls available in the sidebar widget.
-        
-        ####
-        ## 2. Generate Random Data population
-        Once we have simulated a linear function, we need to infuse these data with some noise, to allow for the algoright to discover
-        the simulated linear function. In order to do so we need to specify number of Samples "n" and the Mean of the error Distribution
-        or Mean of Error (Residual):
+        ## 2. Generar dato aleatorio de poblacion
+       Una vez que hemos simulado una función lineal, necesitamos infundir estos datos con algo de ruido, para permitir que el algoritmo descubra
+        la función lineal simulada. Para ello debemos especificar el número de muestras "n" y la media de la distribución del error
+        o Media del Error (Residual):
             
-        #### Number of Samples - n
-        To generate the data, the number of data points need to be specified as per respective control in the sidebar.
+        #### Numero de Muestras - n
+        Para generar los datos, es necesario especificar el número de puntos de datos según el control correspondiente de la barra lateral.
         
         #### Residual - e
-        Distribution of error to be added to Y to generate the Y_Samples.      
+       Distribución del error que se añadirá a Y para generar las Muestras_Y.      
         ''')
         
         # ****************************************************************************************************
         # Input widgets
         # ****************************************************************************************************
         
-        st.sidebar.title("App Controls")
-        st.sidebar.subheader('**Number of samples**')
-        n = st.sidebar.slider('Select the number of samples for the population',5, 100)
+        st.sidebar.title("Controles de la aplicación")
+        st.sidebar.subheader('**Numero de muestras**')
+        n = st.sidebar.slider('Seleccionar el número de muestras para la población',5, 100)
         
-        st.sidebar.subheader('Configure distribution for X')
+        st.sidebar.subheader('Configurar la distribución para X')
         # Use these for good visual - (mean_x = 3, stddev_x = 2)
-        mean_x = st.sidebar.slider("Select Mean for generating X",-10,10,3)
+        mean_x = st.sidebar.slider("Seleccione la media para generar X",-10,10,3)
         stddev_x = st.sidebar.slider('Select Standard Deviation for generating X',-5,5,2)
         
-        st.sidebar.subheader('Coefficients')
+        st.sidebar.subheader('Coeficienstes')
         # Select a = 0.35 and b = 2.5 for good visual
-        a = st.sidebar.slider('Select "Slope" for Regression line', -2.0, 2.0,0.15)
-        b = st.sidebar.slider('Select "Intercept" for Regression line', -10.0, 10.0, 2.5)
+        a = st.sidebar.slider('Seleccione "Pendiente" para la línea de regresión', -2.0, 2.0,0.15)
+        b = st.sidebar.slider('Seleccione "Intercepción" para la línea de regresióne', -10.0, 10.0, 2.5)
         
-        st.sidebar.subheader('Residual Error')
+        st.sidebar.subheader('Error residual')
         #st.write('Select residual distribution for noise added to Simulated Linear function')
-        mean_res = st.sidebar.slider ('Select Mean for Residual Error',0.0,2.0,0.7)
+        mean_res = st.sidebar.slider ('Seleccionar la media del error residual',0.0,2.0,0.7)
                         
         # Dataframe to store generated data
         rl, X1, y1 = sf.generate_data(n, a, b, mean_x, stddev_x, mean_res)
         
         st.write('''
         ##
-        ## 3. View a sample of generated Data
-           The table below, shows a sample of the generated population "X" and "y" along with "Y_act", the actual output of the simulated 
-           linear function used to generate the observed "y".
-                 ''')
+        ## 3. Ver una muestra de los datos generados
+           La siguiente tabla muestra una muestra de la población generada "X" e "y" junto con "Y_act", la salida real de la función lineal simulada utilizada para generar "y" observada. 
+           función lineal simulada utilizada para generar la "y" observada.''')
     
         st.dataframe(rl.head())
         # ****************************************************************************************************************************
@@ -82,26 +80,26 @@ def write():
     
         st.write('''
         ##
-        ## 4. Select Linear Regression Method
-        In order to implement the linear regression model, there are 4 options available:
+        ## 4. Seleccione el método de regresión lineal
+         Para aplicar el modelo de regresión lineal, hay 4 opciones disponibles:
         
-        * Ordinary Least Squares - Simple Linear Regression
-        * Ordinary Least Squares - Normal Equations
-        * Gradient Descent or LSM Algorithm
-        * SKlearn - Linear Models
+        * Mínimos cuadrados ordinarios - Regresión lineal simple
+        * Mínimos cuadrados ordinarios - Ecuaciones normales
+        * Algoritmo de Descenso Gradiente o LSM
+        * SKlearn - Modelos lineales
         
-        For more in depth reading about these methods, please check the Resources pages.
-        #### Select Linear Regression method
+        Para profundizar en estos métodos, consulte las páginas de Recursos.
+        #### Seleccione el método de regresión lineal
                  ''')
            
-        method=["Gradient Descent", "OLS-Simple Linear Regression", "OLS-Normal Equations", "SKlearn"]
+        method=["Descenso del Gradiente ", "MCO-Regresión lineal simple", "Ecuaciones OLS-Normal", "SKlearn"]
         lira_method = st.selectbox('',(method))
         #if st.button('Predict'):
         
-        if lira_method == "Gradient Descent":
+        if lira_method == "Descenso del Gradiente":
             # Configuration Parameters for Gradient Descent
-            L = st.slider('Select the Learning Rate', 0.0,0.05, 0.015,0.0001)
-            epochs = st.slider('Select the number of iterations (Epochs)', 100, 1000,250,5)
+            L = st.slider('Seleccione la tasa de aprendizaje', 0.0,0.05, 0.015,0.0001)
+            epochs = st.slider('Seleccione el número de iteraciones (Epochs)', 100, 1000,250,5)
             #pmethod = ['Altair','Plotly','Matplotlib', 'Skip Animation']
             #mode = st.selectbox("Select Plotting Library",(pmethod))
             
@@ -118,7 +116,7 @@ def write():
             
             
         
-        if lira_method == "OLS-Simple Linear Regression":
+        if lira_method == "MCO-Regresión lineal simple":
             # Calculate coefficients
             alpha, beta = sf.OLS_method(rl)
             
@@ -133,7 +131,7 @@ def write():
             sf.plots_and_metrics(rl, ypred, lira_method,model_coeff, model_assess)
             
             
-        if lira_method == "OLS-Normal Equations":
+        if lira_method == "Ecuaciones OLS-Normal":
             # Calculate coefficients
             alpha, beta = sf.NE_method(X1,y1)
             
