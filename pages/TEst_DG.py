@@ -92,7 +92,7 @@ def write():
         #### Seleccione el método de regresión lineal
                  ''')
            
-        method=["Descenso del Gradiente ", "MCO-Regresión lineal simple", "Ecuaciones OLS-Normal", "SKlearn"]
+        method=["Descenso del Gradiente ", "MCO-Regresión lineal simple", "Ecuaciones OLS-Normal"]
         lira_method = st.selectbox('',(method))
         #if st.button('Predict'):
         
