@@ -246,7 +246,7 @@ def OLS_method(rl):
 # ****************************************************************************************************
 
 def liraweb_predict(a, b, X, method):
-    if method == "MCO-Regresión lineal simple" or method == "Ecuaciones OLS-Normal" or method == "SKlearn":
+    if method == "Descenso del Gradiente" or method == "MCO-Regresión lineal simple" or method == "Ecuaciones OLS-Normal":
         y = a * X + b
         return y
     else:
