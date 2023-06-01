@@ -54,11 +54,11 @@ with tab1:
 with tab2:
     st.title(":blue[Descenso de la Gradiente por lotes en Python]")   
     code = '''import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import time
-from scipy import stats 
-from sklearn.datasets.samples_generator import make_regression'''
+    import numpy as np
+    import pandas as pd
+    import seaborn as sns
+    import time
+    from scipy import stats 
+    from sklearn.datasets.samples_generator import make_regression'''
     st.code(code, language='python')
         
