@@ -1,30 +1,9 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import time
 import streamlit as st
-from scipy import stats 
-import sklearn
-st.title("Descenso de la gradiente por lotes")
-st.wite("Emulamos los procesos")
+import pandas as pd
+import numpy as np
 
-def timeit(method):
-    def timed(*args, **kw):
-        ts = time.time()
-        result = method(*args, **kw)
-        te = time.time()
-        if 'log_time' in kw:
-            name = kw.get('log_name', method.__name__.upper())
-            kw['log_time'][name] = int((te - ts) * 1000)
-        else:
-            print('%r  %2.2f ms' % \
-                  (method.__name__, (te - ts) * 1000))
-        return result
-    return timed
-X, y = sklearn.datasets.make_regression(n_samples = 10000, 
-                       n_features=1, 
-                       n_informative=1, 
-                       noise=20,
-                       random_state=2019)
-plt.scatter(X,y)
+df = pd.DataFrame(
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+    columns=['lat', 'lon'])
+
+st.map(df)
