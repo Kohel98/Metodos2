@@ -19,7 +19,7 @@ with tab3:
             #ast.shared.components.title_awesome(" - Homepage")
             #st.title("LiRA Web App - HomePage")
             
-            st.write('''
+            st.text('''
                     Descenso de la gradiente 
                     el proposito es simular un descenso de una gradiente''')
                     
@@ -31,14 +31,14 @@ with tab3:
             Y = aX + b a partir de las muestras de datos. En este caso no hay conjunto de datos, por lo que vamos a crear una predefinida y configurable
             predefinida y configurable para generar estos datos. Para ello necesitamos especificar lo siguiente:
             """
-            st.write(''':red[Distribución de x (Input)]''')
+            st.text(''':red[Distribución de x (Input)]''')
             """
             Para generar muestras de datos aleatorios para la entrada X, necesitaremos conocer la Media y la Desviación de la distribución,
             que pueden establecerse ajustando los controles respectivos en el widget de la barra lateral.
             
             """
             
-            st.write(''':red[Coeficientes (a, b)]''')
+            st.text(''':red[Coeficientes (a, b)]''')
             """
              La Pendiente y el Intercepto de la función lineal también pueden ajustarse utilizando los controles disponibles en el widget de la barra lateral.
             
@@ -53,13 +53,13 @@ with tab3:
                 
             '''
        
-            st.write(''':red[Numero de Muestras - n]''')
+            st.text(''':red[Numero de Muestras - n]''')
             '''
             Para generar los datos, es necesario especificar el número de puntos de datos según el control correspondiente de la barra lateral.
             
             '''
             
-            st.write(''':red[Residual - e]''')#### 
+            st.text(''':red[Residual - e]''')#### 
             '''
         Distribución del error que se añadirá a Y para generar las Muestras_Y.      
             '''
