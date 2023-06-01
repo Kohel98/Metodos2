@@ -4,7 +4,7 @@ import pandas as pd
 import functions.sfunctions as sf
 
 
-tab1, tab2, tab3 = st.tabs(["Definiciones","Aplicaciones"])
+tab1, tab2 = st.tabs(["Definiciones","Aplicaciones"])
 
 
 with tab1:
