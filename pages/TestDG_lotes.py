@@ -5,8 +5,7 @@ import seaborn as sns
 import time
 import streamlit as st
 from scipy import stats 
-from sklearn
-
+import sklearn
 def timeit(method):
     def timed(*args, **kw):
         ts = time.time()
