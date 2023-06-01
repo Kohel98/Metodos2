@@ -42,7 +42,7 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=1500):
 
         # error cuadrático medio
         e = compute_cost_function(m, t0, t1, x, y)
-        st.write('J = ', e)
+        ##st.write('J = ', e)
         J = e   # Actualiza los errores 
         iter += 1  #Actualiza las iteraciones
     
