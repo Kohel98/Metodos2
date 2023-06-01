@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-tab1, tab2= st.tabs(["Definiciones","Aplicaciones"])
+tab1, tab2= st.tabs(["Definiciones","Aplicacion y Ejemplo"])
 with tab1:
     st.title("Descenso de gradiente de lotes")
     st.header("Teorema")
@@ -134,3 +134,16 @@ y = y.reshape(-1,1)
         """
         st.code(code, language='python')
         st.text("Vamos a trazar el historial de costes a lo largo de las iteraciones")
+        code = """
+                fig,ax = plt.subplots(figsize=(12,8))
+                ax.set_ylabel('J(Theta)')
+                ax.set_xlabel('Iterations')
+                _=ax.plot(range(n_iter),cost_history,'b.')
+            """
+        st.code(code, language='python')
+        st.text("Después de unas 60 iteraciones el coste es plano, por lo que las iteraciones restantes no son necesarias o no darán lugar a ninguna optimización adicional. Acerquémonos hasta la iteración 100 y veamos la curva")
+        code = """
+                fig,ax = plt.subplots(figsize=(10,8))
+                _=ax.plot(range(100),cost_history[:100],'b.')
+            """
+        st.code(code, language='python')
