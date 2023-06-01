@@ -5,6 +5,12 @@ import functions.sfunctions as sf
 
 
 tab1, tab2, tab3 = st.tabs(["Definiciones","Ejemplos","Aplicaciones"])
+
+
+
+
+
+
 with tab3:
     # pylint: disable=line-too-long
     def write():
@@ -15,35 +21,48 @@ with tab3:
             
             st.write('''
                     Descenso de la gradiente 
-                    el proposito es simular un descenso de una gradiente 
+                    el proposito es simular un descenso de una gradiente''')
                     
         
-            ####
-            ## 1. Simular la funcion lineal
-            
+          
+            st.subtitle(''' 1. Simular la funcion lineal''')
+            """
             Normalmente, durante la regresión lineal, intentamos predecir una función lineal del tipo
             Y = aX + b a partir de las muestras de datos. En este caso no hay conjunto de datos, por lo que vamos a crear una predefinida y configurable
             predefinida y configurable para generar estos datos. Para ello necesitamos especificar lo siguiente:
-            
-            #### Distribución de x (Input)
+            """
+            st.write(''':red[Distribución de x (Input)]''')
+            """
             Para generar muestras de datos aleatorios para la entrada X, necesitaremos conocer la Media y la Desviación de la distribución,
             que pueden establecerse ajustando los controles respectivos en el widget de la barra lateral.
             
-            #### Coeficientes (a, b)
-            La Pendiente y el Intercepto de la función lineal también pueden ajustarse utilizando los controles disponibles en el widget de la barra lateral.
+            """
             
-            ####
-            ## 2. Generar dato aleatorio de poblacion
-        Una vez que hemos simulado una función lineal, necesitamos infundir estos datos con algo de ruido, para permitir que el algoritmo descubra
+            st.write(''':red[Coeficientes (a, b)]''')
+            """
+             La Pendiente y el Intercepto de la función lineal también pueden ajustarse utilizando los controles disponibles en el widget de la barra lateral.
+            
+        """
+           
+         
+            st.subtitle(''' 2. Generar dato aleatorio de poblacion''') 
+            '''
+             Una vez que hemos simulado una función lineal, necesitamos infundir estos datos con algo de ruido, para permitir que el algoritmo descubra
             la función lineal simulada. Para ello debemos especificar el número de muestras "n" y la media de la distribución del error
             o Media del Error (Residual):
                 
-            #### Numero de Muestras - n
+            '''
+       
+            st.write(''':red[Numero de Muestras - n]''')
+            '''
             Para generar los datos, es necesario especificar el número de puntos de datos según el control correspondiente de la barra lateral.
             
-            #### Residual - e
+            '''
+            
+            st.write(''':red[Residual - e]''')#### 
+            '''
         Distribución del error que se añadirá a Y para generar las Muestras_Y.      
-            ''')
+            '''
             
             # ****************************************************************************************************
             # Input widgets
