@@ -6,5 +6,5 @@ seaborn
 matplotlib
 scipy
 psycopg2-binary
-sklearn==11.0.0
+sklearn
 altair
