@@ -1,12 +1,14 @@
 import numpy as np
 import pandas as pd
 import random
-
 import pylab
 from scipy import stats
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import streamlit as st
+import sympy as sy
+
 
 def compute_cost_function(m, t0, t1, x, y):
   return 1/2/m * sum([(t0 + t1* np.asarray([x[i]]) - y[i])**2 for i in range(m)])
@@ -22,7 +24,7 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=1500):
 
     # total error, J(theta)
     J = compute_cost_function(m, t0, t1, x, y)
-    print('J=', J);
+    st.write('J=', J);
     # ciclo iterativo
     num_iter = 0
     while not converged:
@@ -40,7 +42,7 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=1500):
 
         # error cuadrático medio
         e = compute_cost_function(m, t0, t1, x, y)
-        print ('J = ', e)
+        st.write('J = ', e)
         J = e   # Actualiza los errores 
         iter += 1  #Actualiza las iteraciones
     
@@ -55,7 +57,7 @@ def plot_cost_function(x, y, m):
     j_values = []
     for i in range(len(t0)):
         j_values.append(compute_cost_function(m, i, i, x, y)[0])
-    print ('j_values', len(j_values), len(x), len(y))
+    st.write('j_values', len(j_values), len(x), len(y))
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     ax.plot(x, y, j_values, label='curva parametrica')
@@ -73,7 +75,7 @@ if __name__ == '__main__':
     ep = 0.01
 
     theta0, theta1 = gradient_descent(alpha, x, y, ep, max_iter=1500)
-    print ('theta0 = ' + str(theta0)+' theta1 = '+str(theta1))
+    st.write('theta0 = ' + str(theta0)+' theta1 = '+str(theta1))
   
     for i in range(x.shape[0]):
         y_predict = theta0 + theta1*x 
@@ -81,4 +83,4 @@ if __name__ == '__main__':
     pylab.plot(x,y,'o')
     pylab.plot(x,y_predict,'k-')
     pylab.show()
-    print ("Listo!")
+    st.write("Listo!")
