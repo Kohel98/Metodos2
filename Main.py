@@ -8,7 +8,7 @@ from sympy.plotting import plot3d,plot3d_parametric_line
 import plotly as ply
 import base64
 
-file1_ = open("./Im1.png", "rb")
+file1_ = open("./Im1.jpg", "rb")
 
 
 #Portada
