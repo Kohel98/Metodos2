@@ -131,5 +131,18 @@ y = y.reshape(-1,1)
     
     """
     st.code(code, language='python')
+    code = """
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.set_ylabel("{J(Theta)}", rotation=0)
+    ax.set_xlabel("{Iterations}")
+    theta = np.random.randn(2, 1)
+    _ = ax.plot(range(n_iter), cost_history, "b.")
+    """
+    st.code(code, language='python')
+    code = """
+    fig,ax = plt.subplots(figsize=(10,8))
+    _=ax.plot(range(100),cost_history[:100],'b.')
+    """
+    st.code(code, language='python')
    
   
