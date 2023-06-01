@@ -1,10 +1,12 @@
+import numpy as np
 import pandas as pd
+import random
+
 import pylab
-df = pd.read_csv('./ex1data1.txt', names=['x','y'])
-pylab.plot(df['x'], df['y'],'o')
-pylab.show()
-def compute_cost_function(m, t0, t1, x, y):
-    return 1/2/m * sum([(t0 + t1* np.asarray([x[i]]) - y[i])**2 for i in range(m)])
+from scipy import stats
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 def compute_cost_function(m, t0, t1, x, y):
   return 1/2/m * sum([(t0 + t1* np.asarray([x[i]]) - y[i])**2 for i in range(m)])
@@ -13,11 +15,12 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=1500):
     converged = False
     iter = 0
     m = x.shape[0] # numero de muestras
-    
- # theta iniical
+
+    # theta iniical
     t0 = 0
     t1 = 0
-     # total error, J(theta)
+
+    # total error, J(theta)
     J = compute_cost_function(m, t0, t1, x, y)
     print('J=', J);
     # ciclo iterativo
@@ -30,7 +33,8 @@ def gradient_descent(alpha, x, y, ep=0.0001, max_iter=1500):
         # Actualiza theta_temp
         temp0 = t0 - alpha * grad0
         temp1 = t1 - alpha * grad1
-     # Actualiza theta
+    
+        # Actualiza theta
         t0 = temp0
         t1 = temp1
 
