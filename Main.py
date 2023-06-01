@@ -40,7 +40,7 @@ st.subheader('''''')
 st.subheader('''
         Intergrantes: \n
         +Bañuelos Rangel Martha Esther\\
-        +Jesus Kohel Islas
+        +Jesus Kohel Islas\\
         +Vega Martinez Max
 ''')
 
