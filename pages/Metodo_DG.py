@@ -53,7 +53,8 @@ with tab1:
          
 with tab2:
     st.title(":blue[Descenso de la Gradiente por lotes en Python]")   
-    code = '''import matplotlib.pyplot as plt
+    code = '''
+    import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import seaborn as sns
