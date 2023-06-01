@@ -5,7 +5,7 @@ import seaborn as sns
 import time
 import streamlit as st
 from scipy import stats 
-from sklearn.linear_model import LinearRegression
+from sklearn
 
 def timeit(method):
     def timed(*args, **kw):
