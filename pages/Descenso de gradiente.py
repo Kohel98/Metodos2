@@ -5,7 +5,7 @@ import functions.sfunctions as sf
 
 
 tab1, tab2, tab3 = st.tabs(["Definiciones","Ejemplos","Aplicaciones"])
-with tab1:
+with tab3:
     # pylint: disable=line-too-long
     def write():
         #"""Used to write the page in the app.py file"""
